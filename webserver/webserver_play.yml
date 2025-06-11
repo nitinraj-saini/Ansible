@@ -1,0 +1,42 @@
+---
+- name: Install and configure Apache Web Server
+  hosts: webserver
+  become: yes
+
+  vars:
+    apache_package: apache2
+    apache_service: apache2
+
+  tasks:
+    - name: Install Apache
+      apt:
+        name: "{{ apache_package }}"
+        state: present
+        update_cache: yes
+
+    - name: Deploy index.html
+      copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Configure Apache (optional)
+      template:
+        src: templates/apache2.conf.j2
+        dest: /etc/apache2/sites-available/000-default.conf
+      notify: Restart Apache
+
+    - name: Ensure Apache is running and enabled
+      service:
+        name: "{{ apache_service }}"
+        state: started
+        enabled: true
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: "{{ apache_service }}"
+        state: restarted
+
