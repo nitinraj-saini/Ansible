@@ -1,0 +1,63 @@
+---
+- name: Deploy Dockerized Node.js App
+  hosts: dockerhosts
+  become: true
+
+  tasks:
+    - name: Install system dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        update_cache: yes
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repo
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker and Compose
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Create app directory
+      file:
+        path: /home/nrs/app
+        state: directory
+        owner: nrs
+
+    - name: Copy app files
+      copy:
+        src: files/
+        dest: /home/nrs/
+        owner: nrs
+        mode: '0755'
+
+    - name: Deploy Node.js app with Docker Compose
+      become_user: nrs
+      shell: |
+        docker-compose -f /home/nrs/docker-compose.yml up -d
+      args:
+        chdir: /home/nrs
+
