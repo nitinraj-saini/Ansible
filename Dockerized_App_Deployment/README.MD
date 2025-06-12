@@ -19,12 +19,18 @@ This project automates the installation of Docker and Docker Compose, and deploy
 ## 📁 Project Structure
 
 Dockerized_App_Deployment/
+
 ├── inventory.ini
+
 ├── playbook.yml
+
 ├── files/
 │   ├── docker-compose.yml
+
 │   └── app/
+
 │       ├── Dockerfile
+
 │       └── server.js
 
 ----------------------------------------------------------------------------
@@ -38,31 +44,31 @@ Ansible Vault?
 
 🔐 Creating a Vault File
 
- ansible-vault create inventry.yml
+# ansible-vault create inventry.yml
 
 * Creates a new encrypted file using your defined password or prompt.
 
 🔓 Editing a Vault File
 
- ansible-vault edit filename.yml
+# ansible-vault edit filename.yml
 
 * Opens the encrypted file in your editor so you can modify it.
 
 🔄 Rekeying a Vault File
 
- ansible-vault rekey filename.yml
+# ansible-vault rekey filename.yml
 
 * Changes the password on the encrypted file.
 
 🔓 Decrypting a Vault File
 
- ansible-vault decrypt filename.yml
+# ansible-vault decrypt filename.yml
 
 * Converts the encrypted file into plain text.
 
 🔐 Encrypting an Existing File
 
- ansible-vault encrypt filename.yml
+# ansible-vault encrypt filename.yml
 
 * Encrypts a plain text file with Vault.
 
@@ -71,23 +77,23 @@ Ansible Vault?
 
 Run your playbook like this:
 
- ansible-playbook -i inventory.ini playbook.yml --ask-vault-pass
+# ansible-playbook -i inventory.ini playbook.yml --ask-vault-pass
 
 ✅ Test Ping
 
- ansible -i inventory.ini dockerhosts -m ping --ask-vault-pass
+# ansible -i inventory.ini dockerhosts -m ping --ask-vault-pass
 ----------------------------------------------------------------------------------------
 ✅ Add the user to the docker group (Recommended)
    Run this once on the target server:
 
- sudo usermod -aG docker nrs
+# sudo usermod -aG docker nrs
 
 ----------------------------------------------------------------------------------------
 
 
 
 
-#				***************END***************
+				***************END***************
 
 
 
