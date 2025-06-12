@@ -44,7 +44,7 @@ Ansible Vault?
 
 🔐 Creating a Vault File
 
-# ansible-vault create inventry.yml
+- ansible-vault create inventry.yml
 
 * Creates a new encrypted file using your defined password or prompt.
 
